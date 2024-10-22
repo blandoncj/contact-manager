@@ -1,6 +1,7 @@
 class ContactEntity:
     def __init__(
         self,
+        id,
         name,
         lastname,
         phones,
@@ -8,7 +9,6 @@ class ContactEntity:
         address=None,
         email=None,
         is_favorite=False,
-        id=None,
     ):
         self.id = id
         self.name = name
