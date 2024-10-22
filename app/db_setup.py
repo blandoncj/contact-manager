@@ -16,9 +16,9 @@ CONTACTS_TABLE = """
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         lastname TEXT,
-        email TEXT,
+        category TEXT NOT NULL,
         address TEXT,
-        type TEXT NOT NULL,
+        email TEXT,
         is_favorite BOOLEAN NOT NULL DEFAULT 0,
         user_id INTEGER NOT NULL,
         FOREIGN KEY(user_id) REFERENCES users(id)
@@ -28,12 +28,11 @@ CONTACTS_TABLE = """
 
 PHONES_TABLE = """
     
-    CREATE TABLE IF NOT EXISTS phones (
+    CREATE TABLE IF NOT EXISTS contact_phones (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         phone TEXT NOT NULL,
         contact_id INTEGER NOT NULL,
-        FOREIGN KEY(contact_id) REFERENCES contacts(id)
-    
+        FOREIGN KEY(contact_id) REFERENCES contacts(id) ON DELETE CASCADE
     );
 
 """
