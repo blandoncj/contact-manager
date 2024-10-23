@@ -22,7 +22,7 @@ class ContactController:
         self.contact_dao.create_contact(contact, user_id)
 
     def update_contact(self, contact: ContactEntity) -> None:
-        self.contact_d_dao.update_contact(contact)
+        self.contact_dao.update_contact(contact)
 
     def delete_contact(self, contact_id: int) -> None:
         self.contact_dao.delete_contact(contact_id)
