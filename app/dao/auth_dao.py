@@ -2,7 +2,6 @@ import bcrypt
 import sqlite3 as sql
 from db.db_connection import DatabaseConnection
 from dto.login_dto import LoginDTO
-from dto.user_dto import UserDTO
 from entity.user import UserEntity
 from exception.user_exceptions import (
     InvalidCredentialsException,
@@ -12,13 +11,17 @@ from exception.user_exceptions import (
 
 class AuthDAO:
 
-    def find_by_id(self, user_id: int) -> UserDTO:
+    def find_by_id(self, user_id: int) -> UserEntity:
         try:
             with DatabaseConnection() as conn:
                 cursor = conn.cursor()
                 cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
                 result = cursor.fetchone()
-                return UserDTO(result[0], result[1], result[2]) if result else None
+                return (
+                    UserEntity(result[0], result[1], result[2], result[3])
+                    if result
+                    else None
+                )
         except sql.Error as e:
             print(f"Error on find_by_id: {e}")
             return None
@@ -73,7 +76,7 @@ class AuthDAO:
                     result = cursor.fetchone()
 
                     if result:
-                        return UserDTO(result[0], result[1], result[2])
+                        return UserEntity(result[0], result[1], result[2], result[3])
                     else:
                         raise InvalidCredentialsException()
                 else:
