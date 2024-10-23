@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% set title = 'Update Contact | Agenda' %}
+{% set css = 'contact-form.css' %}
+
+{% block content %}
+    <section class="add-contact-container">
+        <div class="contact-form-container">
+            <h2 class="form-heading">Update Contact</h2>
+
+            <form action="{{ url_for('update_contact', contact_id = contact.id)}}" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="text">Name *</label>
+                    <input class="form-input" type="name" name="name" id="name" placeholder="Enter a name" value="{{ contact.name }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="text">Last name</label>
+                    <input class="form-input" type="name" name="lastname" id="lastname" placeholder="Enter a lastname" value="{{ contact.lastname|default('') }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="text">Phone *</label>
+                    <input class="form-input" type="tel" name="phone" id="phone" placeholder="Enter a phone" value="{% if contact.phones and contact.phones[0] is not none %} {{ contact.phones[0] }} {% endif %}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="text">Other phone</label>
+                    <input class="form-input" type="tel" name="other_phone" id="other_phone" placeholder="Enter other phone" value="{% if contact.phones|length > 1 and contact.phones[1] is not none %} {{ contact.phones[1] }} {% endif %}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="text">Address</label>
+                    <input class="form-input" type="text" name="address" id="address" placeholder="Enter an address" value="{{ contact.address|default('') }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-input" type="email" name="email" id="email" placeholder="Enter an email" value="{{ contact.email|default('') }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="category">Category *</label>
+                    <select class="form-select" name="category" id="category">
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="Family" {% if contact.category == 'Family' %} selected {% endif %}>Family</option>
+                        <option value="Friend" {% if contact.category == 'Friend' %} selected {% endif %}>Friend</option>
+                        <option value="Acquaintance" {% if contact.category == 'Acquaintance' %} selected {% endif %}>Acquaintance</option>
+                        <option value="None" {% if contact.category == 'None' %} selected {% endif %}>None</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="favorite">Favorite</label>
+                    <input class="form-checkbox" type="checkbox" name="favorite" id="favorite" value="1" {% if contact.is_favorite %} checked {% endif %}>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn-submit" type="submit">Update contact</button>
+                </div>
+
+                <div class="alert-container">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert {{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+           </form>
+        </div>
+    </section>
+{% endblock %}
